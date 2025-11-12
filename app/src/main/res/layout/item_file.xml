@@ -1,44 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="6dp"
-    android:gravity="center_vertical">
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_file_name"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="file_name.tmp"
-            android:maxWidth="200dp"
-            android:textColor="#FF252525"
-            android:textSize="12sp"/>
-
-
-
-        <TextView
-            android:id="@+id/tv_file_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1.25MB"
-            android:textColor="#FF999999"
-            android:textSize="10sp"/>
-
-    </LinearLayout>
+    android:padding="6dp">
 
     <ImageView
         android:id="@+id/img_file_select"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_disselete"
-        android:layout_marginStart="18dp"/>
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="18dp" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_file_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.25MB"
+        android:textColor="#FF999999"
+        android:textSize="10sp"
+        android:layout_toStartOf="@+id/img_file_select"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/tv_file_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="file_name.tmp"
+        android:maxWidth="150dp"
+        android:textColor="#FF252525"
+        android:textSize="12sp"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/tv_file_size"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="8dp" />
+
+</RelativeLayout>

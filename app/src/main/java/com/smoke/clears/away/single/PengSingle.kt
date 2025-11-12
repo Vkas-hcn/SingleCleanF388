@@ -31,15 +31,15 @@ class PengSingle : AppCompatActivity() {
             finish()
         }
 
-//        binding.atvPicture.setOnClickListener {
-//            startActivity(Intent(this, CleanPictureActivity::class.java))
-//            finish()
-//        }
-//        binding.atvFile.setOnClickListener {
-//            startActivity(Intent(this, CleanFileActivity::class.java))
-//            finish()
-//        }
-        binding.atvClean.setOnClickListener {
+        binding.mbCpu.setOnClickListener {
+            startActivity(Intent(this, TanSingle::class.java))
+            finish()
+        }
+        binding.mbBattery.setOnClickListener {
+            startActivity(Intent(this, DanSingle::class.java))
+            finish()
+        }
+        binding.mbClean.setOnClickListener {
             startActivity(Intent(this, PiSingle::class.java))
             finish()
         }

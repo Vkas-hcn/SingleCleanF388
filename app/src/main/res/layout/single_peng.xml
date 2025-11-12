@@ -77,7 +77,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_save_data" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/atv_picture"
+        android:id="@+id/atv_cpu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -87,13 +87,14 @@
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:padding="16dp"
-        android:text="Picture Clean"
-        android:textColor="#FF0A0C10"
-        android:textSize="12sp"
+        android:text="CPU"
+        android:textColor="#FF3E3E3E"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/view_line" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/mb_cpu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -104,9 +105,9 @@
         android:textSize="12sp"
         app:backgroundTint="#67A8FF"
         app:cornerRadius="14dp"
-        app:layout_constraintBottom_toBottomOf="@+id/atv_picture"
-        app:layout_constraintEnd_toEndOf="@+id/atv_picture"
-        app:layout_constraintTop_toTopOf="@+id/atv_picture" />
+        app:layout_constraintBottom_toBottomOf="@+id/atv_cpu"
+        app:layout_constraintEnd_toEndOf="@+id/atv_cpu"
+        app:layout_constraintTop_toTopOf="@+id/atv_cpu" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/atv_file"
@@ -119,13 +120,14 @@
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:padding="16dp"
-        android:text="File Clean"
-        android:textColor="#FF252525"
-        android:textSize="12sp"
+        android:text="Battery"
+        android:textColor="#FF3E3E3E"
+        android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/atv_picture" />
+        app:layout_constraintTop_toBottomOf="@+id/atv_cpu" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/mb_battery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -152,12 +154,13 @@
         android:gravity="center_vertical"
         android:padding="16dp"
         android:text="Clean"
-        android:textColor="#FF252525"
-        android:textSize="12sp"
+        android:textColor="#FF3E3E3E"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/atv_file" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/mb_clean"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

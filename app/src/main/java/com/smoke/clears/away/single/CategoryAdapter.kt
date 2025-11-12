@@ -46,7 +46,24 @@ class CategoryAdapter(
 
             if (category.isExpanded) {
                 rvItemFile.visibility = android.view.View.VISIBLE
-                val fileAdapter = FileScanAdapter(category.files) {
+                val fileAdapter = FileScanAdapter(category.files.map { fileData ->
+                    TrashFile(
+                        name = fileData["name"] as? String ?: "",
+                        path = fileData["path"] as? String ?: "",
+                        size = fileData["size"] as? Long ?: 0L,
+                        isSelected = fileData["isSelected"] as? Boolean ?: false,
+                        type = when (category.type) {
+                            "app_cache" -> TrashType.APP_CACHE
+                            "apk_files" -> TrashType.APK_FILES
+                            "log_files" -> TrashType.LOG_FILES
+                            "temp_files" -> TrashType.TEMP_FILES
+                            "ad_junk" -> TrashType.ADJUNK
+                            else -> TrashType.TEMP_FILES
+                        }
+                    )
+                }) { toggled ->
+                    // 将子项选择状态同步回分类原始数据
+                    category.setFileSelectedByPath(toggled.path, toggled.isSelected)
                     updateCategorySelection(category)
                     notifyItemChanged(position)
                     onSelectionChanged()
@@ -66,7 +83,7 @@ class CategoryAdapter(
 
             imgSelect.setOnClickListener {
                 category.isSelected = !category.isSelected
-                category.files.forEach { it.isSelected = category.isSelected }
+                category.selectAll(category.isSelected)
                 notifyItemChanged(position)
                 onSelectionChanged()
             }
@@ -76,7 +93,7 @@ class CategoryAdapter(
     override fun getItemCount() = categories.size
 
     private fun updateCategorySelection(category: TrashCategory) {
-        category.isSelected = category.files.isNotEmpty() && category.files.all { it.isSelected }
+        category.isSelected = category.files.isNotEmpty() && category.files.all { it["isSelected"] as? Boolean ?: false }
     }
 
     private fun formatFileSize(size: Long): String {

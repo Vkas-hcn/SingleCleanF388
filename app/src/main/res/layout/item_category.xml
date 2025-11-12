@@ -1,61 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:paddingHorizontal="20dp"
-    android:orientation="vertical">
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="20dp">
 
-    <LinearLayout
-        android:id="@+id/ll_category"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_category_bottom"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingVertical="9dp"
-        android:gravity="center_vertical">
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="iv_icon,tv_title,img_instruct,tv_size,img_select" />
 
-        <ImageView
-            android:id="@+id/iv_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/icon_cache"/>
+    <View
+        android:id="@+id/ll_category"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/img_select"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/rv_item_file" />
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="App Cache"
-            android:layout_marginHorizontal="8dp"
-            android:textColor="#FF252525"
-            android:textSize="14sp"
-            android:textStyle="bold"/>
-        <ImageView
-            android:id="@+id/img_instruct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow_bottom"/>
-        <TextView
-            android:id="@+id/tv_size"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:layout_height="wrap_content"
-            android:text="0MB"
-            android:textColor="#FF999999"
-            android:textSize="12sp"/>
-        <ImageView
-            android:id="@+id/img_select"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:src="@drawable/ic_disselete"/>
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/icon_cache"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="9dp" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="App Cache"
+        android:layout_marginHorizontal="8dp"
+        android:textColor="#FF252525"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/iv_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_icon"
+        android:layout_marginTop="9dp" />
+
+    <ImageView
+        android:id="@+id/img_instruct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_bottom"
+        app:layout_constraintStart_toEndOf="@+id/tv_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_icon"
+        android:layout_marginTop="9dp" />
+
+    <TextView
+        android:id="@+id/tv_size"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="0MB"
+        android:textColor="#FF999999"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/img_instruct"
+        app:layout_constraintEnd_toStartOf="@+id/img_select"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_icon"
+        android:layout_marginTop="9dp" />
+
+    <ImageView
+        android:id="@+id/img_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:src="@drawable/ic_disselete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_icon"
+        android:layout_marginTop="9dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_item_file"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/barrier_category_bottom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_file"/>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
