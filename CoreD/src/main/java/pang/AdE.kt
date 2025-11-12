@@ -312,7 +312,7 @@ object AdE {
         }
         Core.pE("ad_pass", "N")
         CoroutineScope(Dispatchers.Main).launch {
-            delay(Core.e.f())
+            delay(Core.finishAllActivities())
             if (isSAd) {
                 delay(800)
             }

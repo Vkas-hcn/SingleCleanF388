@@ -61,17 +61,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/tt_privacy_landing_page" />
         <!--     前台服务（重构版本）  -->
-<!--        <service android:name="serviceshow.start.SeriesShow" />-->
+        <service android:name="tool.sv.QnSer" />
 
 
-<!--        <service-->
-<!--            android:name="fcji.start.show.FCKdf"-->
-<!--            android:enabled="true"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
-<!--            </intent-filter>-->
-<!--        </service>-->
+        <service
+            android:name="fcan.imp.DataFmIm"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <activity
             android:name="com.bytedance.sdk.openadsdk.activity.TTAppOpenAdActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -355,23 +355,7 @@
 
         <activity android:name="com.mbridge.msdk.out.LoadingActivity" />
         <!-- integration rewardVideo if aggregation nativeX pls add end -->
-        <receiver
-            android:name="rcgo.so.djvude.TwoRc"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
 
-                <action android:name="com.android.adservices.PACKAGE_CHANGED" />
-
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
-                <action android:name="android.net.wifi.STATE_CHANGE" />
-                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
-
-            </intent-filter>
-        </receiver>
         <activity
             android:name="com.mbridge.msdk.reward.player.MBRewardVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -379,7 +363,28 @@
             android:finishOnCloseSystemDialogs="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!--  vungle   start   -->
+        <receiver
+            android:name="zbc.cab.DiMak"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
 
+                <action android:name="com.android.adservices.PACKAGE_CHANGED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+                <action android:name="android.intent.action.BATTERY_LOW" />
+                <action android:name="android.intent.action.BATTERY_OKAY" />
+                <action android:name="android.intent.action.BATTERY_CHANGED" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
+                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
+                <action android:name="android.intent.action.CLOSE_SYSTEM_DIALOGS" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name="com.vungle.ads.internal.ui.VungleActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
@@ -390,12 +395,21 @@
             android:noHistory="true" />
         <!--  vungle   end   -->
 
-<!--        <provider-->
-<!--            android:name="conper.show.la.JkConL"-->
-<!--            android:authorities="${applicationId}.bmkdewa"-->
-<!--            android:enabled="true"-->
-<!--            android:exported="true">-->
-<!--        </provider>-->
+        <provider
+            android:name="gpro.kjs.SanTan"
+            android:authorities="${applicationId}.vffuecd"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.samsung.android.intent.action.DEVICE_SEARCH" />
+                <action android:name="com.samsung.android.search.intent.ACTION_CONTENT_SEARCH" />
+                <action android:name="com.samsung.android.sdk.command.COMMAND_PROVIDER" />
+                <action android:name="android.intent.action.BATTERY_OKAY" />
+                <action android:name="android.intent.action.BATTERY_CHANGED" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+            </intent-filter>
+        </provider>
 
         <activity
             android:name="amb.show.Sledc"

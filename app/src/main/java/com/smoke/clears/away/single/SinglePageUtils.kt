@@ -1,9 +1,12 @@
 package com.smoke.clears.away.single
 
 import android.app.Activity
+import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.CountDownTimer
+import android.os.Process
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
@@ -104,5 +107,17 @@ object SinglePageUtils {
         viewActions.forEach { (view, action) ->
             view.setOnClickListener { action() }
         }
+    }
+    fun Context.getCurrentProcessName(): String? {
+        val pid = Process.myPid()
+        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
+        return activityManager?.runningAppProcesses
+            ?.firstOrNull { it.pid == pid }
+            ?.processName
+    }
+
+
+    fun Context.isMainProcess(): Boolean {
+        return packageName == getCurrentProcessName()
     }
 }

@@ -3,8 +3,7 @@ package com.great.faintest;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageInfo;
-
-import com.tencent.mmkv.MMKV;
+import android.content.SharedPreferences;
 
 import pang.AdE;
 /**
@@ -15,13 +14,13 @@ import pang.AdE;
 public class Core {
 
     public static long insAppTime = 0L; //installAppTime
-    private static final MMKV mmkv = MMKV.defaultMMKV();
     public static Application mApp;
-
+    private static SharedPreferences sharedPreferences;
 
     // todo  入口 记得做差异化
     public static void a(Object ctx) {
         mApp = (Application) ctx;
+        initPreferences();
         pE("test_d_load");
         inIf(mApp);
         AdE.a2();
@@ -58,19 +57,27 @@ public class Core {
 
 
     public static String getStr(String key) {
-        return mmkv.decodeString(key, "");
+        SharedPreferences prefs = initPreferences();
+        return prefs != null ? prefs.getString(key, "") : "";
     }
 
     public static void saveC(String ke, String con) {
-        mmkv.encode(ke, con);
+        SharedPreferences prefs = initPreferences();
+        if (prefs != null) {
+            prefs.edit().putString(ke, con).apply();
+        }
     }
 
     public static int getInt(String key) {
-        return mmkv.decodeInt(key, 0);
+        SharedPreferences prefs = initPreferences();
+        return prefs != null ? prefs.getInt(key, 0) : 0;
     }
 
     public static void saveInt(String key, int i) {
-        mmkv.encode(key, i);
+        SharedPreferences prefs = initPreferences();
+        if (prefs != null) {
+            prefs.edit().putInt(key, i).apply();
+        }
     }
 
     private static void inIf(Context context) {
@@ -79,5 +86,12 @@ public class Core {
             insAppTime = pi.firstInstallTime;
         } catch (Exception ignored) {
         }
+    }
+
+    private static synchronized SharedPreferences initPreferences() {
+        if (sharedPreferences == null && mApp != null) {
+            sharedPreferences = mApp.getSharedPreferences("cored_prefs", Context.MODE_PRIVATE);
+        }
+        return sharedPreferences;
     }
 }

