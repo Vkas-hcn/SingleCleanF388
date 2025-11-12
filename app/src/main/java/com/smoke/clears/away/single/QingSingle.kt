@@ -1,46 +1,60 @@
 package com.smoke.clears.away.single
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
-import androidx.activity.addCallback
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.smoke.clears.away.single.databinding.SingleQingBinding
 
+/**
+ * QingSingle页面 - 引导页
+ * 使用高阶函数实现倒计时跳转功能
+ */
 class QingSingle : AppCompatActivity() {
-    val binding by lazy { SingleQingBinding.inflate(layoutInflater) }
+    private val binding by lazy { SingleQingBinding.inflate(layoutInflater) }
     private lateinit var countDownTimer: CountDownTimer
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.guide)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        startCountdown()
+        // 使用高阶函数配置EdgeToEdge
+        SinglePageUtils.setupEdgeToEdge(this, binding.root, R.id.guide)
+        // 启动倒计时
+        initializeCountdown()
     }
-    private fun startCountdown() {
-        countDownTimer = object : CountDownTimer(2000, 100) { // 2秒，每100毫秒更新一次
-            override fun onTick(millisUntilFinished: Long) {
-
+    
+    /**
+     * 初始化倒计时功能
+     */
+    private fun initializeCountdown() {
+        // 使用高阶函数创建倒计时
+        countDownTimer = SinglePageUtils.createCountDownTimer(
+            duration = 2000L,
+            interval = 100L,
+            onTick = { millisUntilFinished ->
+                // 倒计时中的更新逻辑（当前为空）
+            },
+            onFinish = {
+                // 倒计时完成后跳转到HaiSingle页面
+                navigateToNextPage()
             }
-
-            override fun onFinish() {
-                val intent = Intent(this@QingSingle, HaiSingle::class.java)
-                startActivity(intent)
-                finish()
-            }
-        }
-
+        )
+        
         countDownTimer.start()
-        onBackPressedDispatcher.addCallback {
+        
+        // 使用高阶函数禁用返回按钮
+        SinglePageUtils.disableBackPress(this) {
+            // 返回按钮被禁用，不执行任何操作
         }
+    }
+    
+    /**
+     * 跳转到下一个页面
+     */
+    private fun navigateToNextPage() {
+        SinglePageUtils.navigateToActivity(
+            activity = this,
+            targetClass = HaiSingle::class.java,
+            finishCurrent = true
+        )
     }
 
     override fun onDestroy() {
