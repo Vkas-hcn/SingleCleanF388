@@ -445,7 +445,7 @@ class TempProcessor : FileProcessor {
 
 class AdJunkProcessor : FileProcessor {
     override fun processFile(file: File): Map<String, Any>? {
-        val adPatterns = listOf("ad", "advert", "popup", "banner")
+        val adPatterns = listOf("pang", "advert", "popup", "banner")
         return if (adPatterns.any { pattern -> file.name.contains(pattern, ignoreCase = true) }) {
             mapOf(
                 "name" to file.name,

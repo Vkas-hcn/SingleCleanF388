@@ -1,50 +1,56 @@
 package com.smoke.clears.away.single
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.smoke.clears.away.single.databinding.SingleLiBinding
 
+
 class LiSingle : AppCompatActivity() {
-    val binding by lazy { SingleLiBinding.inflate(layoutInflater) }
+    private val binding by lazy { SingleLiBinding.inflate(layoutInflater) }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.setting)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
+        // 使用高阶函数配置EdgeToEdge
+        SinglePageUtils.setupEdgeToEdge(this, binding.root, R.id.setting)
+        // 设置点击监听器
         setupClickListeners()
     }
 
+
     private fun setupClickListeners() {
-        binding.btnBack.setOnClickListener {
-            finish()
-        }
+        // 使用高阶函数批量设置点击监听器
+        SinglePageUtils.setMultipleClickListeners(
+            binding.btnBack to { handleBackClick() },
+            binding.itemPrivacy to { handlePrivacyClick() },
+            binding.itemShare to { handleShareClick() }
+        )
+    }
 
-        binding.itemPrivacy.setOnClickListener {
-            //TODO 隐私政策页面
-             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://google-privacy-policy-url.com"))
-             startActivity(intent)
-        }
 
-        binding.itemShare.setOnClickListener {
-            val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                type = "text/plain"
-                putExtra(Intent.EXTRA_SUBJECT, "Share app")
-                putExtra(Intent.EXTRA_TEXT, "I found a great app, give it a try!")
+    private fun handleBackClick() {
+        finish()
+    }
+
+
+    private fun handlePrivacyClick() {
+        // TODO
+        SinglePageUtils.openWebPage(
+            activity = this,
+            url = "https://google-privacy-policy-url.com",
+            onError = { exception ->
+                // 错误处理（如果需要）
             }
-            startActivity(Intent.createChooser(shareIntent, "Share app"))
-        }
+        )
+    }
 
 
+    private fun handleShareClick() {
+        // 使用高阶函数分享内容
+        SinglePageUtils.shareContent(
+            activity = this,
+            subject = "Share app",
+            text = "I found a great app, give it a try!",
+            chooserTitle = "Share app"
+        )
     }
 }
