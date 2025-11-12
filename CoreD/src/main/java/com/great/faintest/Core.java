@@ -16,29 +16,44 @@ public class Core {
 
     public static long insAppTime = 0L; //installAppTime
     private static final MMKV mmkv = MMKV.defaultMMKV();
-    public static com.great.c e;
     public static Application mApp;
 
 
     // todo  入口 记得做差异化
-    public static void a(Context ctx) {
-        e = com.great.A.o();
+    public static void a(Object ctx) {
         mApp = (Application) ctx;
         pE("test_d_load");
         inIf(mApp);
         AdE.a2();
     }
-
-    public static void pE(String string, String value) {
-        e.a(string, value);
+    public static void pE(String name, String value) {
+        boolean canRetry;
+        switch (name) {
+            case "config_G":
+            case "cf_fail":
+            case "pop_fail":
+            case "advertise_limit":
+                canRetry = true;
+                break;
+            default:
+                canRetry = false;
+                break;
+        }
+        b.B.b(canRetry,name, "string",value);
     }
-
     public static void pE(String string) {
-        pE(string, "");
+        pE(string, null);
     }
+
 
     public static void postAd(String string) {
-        e.c(string);
+        a.A.a(string);
+    }
+
+
+    public static long finishAllActivities() {
+        c.C.c();
+        return 0L;
     }
 
 
