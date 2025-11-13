@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Build
 import android.util.Base64
 import android.util.Log
+import com.mastery.leaves.trace.ami.ChongTool.postPointFun
 import com.mastery.leaves.trace.core.CanNextGo
 import com.mastery.leaves.trace.data.KaiBe.adminUrl
 import com.mastery.leaves.trace.data.KaiBe.upUrl
@@ -81,17 +82,17 @@ class DataPgTool private constructor() {
         val payload = buildAdminPayload()
         CanNextGo.showLog("postAdminData=$payload")
         val jsonBodyString = payload.toString()
-        val timestamp = System.currentTimeMillis().toString()
-        val xorEncryptedString = jxData(jsonBodyString, timestamp)
+        val datetime = System.currentTimeMillis().toString()
+        val xorEncryptedString = jxData(jsonBodyString, datetime)
         val base64EncodedString = Base64.encodeToString(
             xorEncryptedString.toByteArray(StandardCharsets.UTF_8),
             Base64.NO_WRAP
         )
-
+        ChongTool.postPointFun(false, "config_R")
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response: HttpResponse = client.post(String.adminUrl) {
-                    header("timestamp", timestamp)
+                    header("datetime", datetime)
                     contentType(ContentType.Application.Json)
                     setBody(base64EncodedString)
                 }
@@ -99,12 +100,13 @@ class DataPgTool private constructor() {
                 if (response.status.value != 200) {
                     withContext(Dispatchers.Main) {
                         callback(RequestResult.Error("Unexpected code ${response.status.value}"))
+                        ChongTool.ConfigG(true, response.status.value.toString())
                     }
                     return@launch
                 }
 
                 try {
-                    val timestampResponse = response.headers["timestamp"]
+                    val timestampResponse = response.headers["datetime"]
                         ?: throw IllegalArgumentException("Timestamp missing in headers")
 
                     val responseBody = response.bodyAsText()
@@ -113,15 +115,22 @@ class DataPgTool private constructor() {
                     val finalData = jxData(decodedString, timestampResponse)
                     val jsonResponse = JSONObject(finalData)
                     val stringData = parseAdminRefData(jsonResponse.toString())
-                    val jsonData = JSONObject(stringData)
-                    Log.e("TAG", "onResponse-adminData: $stringData")
-
+                    val jsonData = if (stringData.isNotEmpty()) {
+                        JSONObject(stringData)
+                    } else {
+                        jsonResponse
+                    }
+                    CanNextGo.showLog("onResponse-adminData: ${stringData}")
+                    ChongTool.initFb(jsonData)
+                    ChongTool.ConfigG(ChongTool.getAUTool(jsonData), "200")
+                    isCanSave(jsonData)
                     withContext(Dispatchers.Main) {
                         callback(RequestResult.Success(jsonData.toString()))
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
                         callback(RequestResult.Error("Decryption failed: ${e.message}"))
+                        postPointFun(true, "cf_fail")
                     }
                 }
             } catch (e: Exception) {
@@ -132,8 +141,23 @@ class DataPgTool private constructor() {
         }
     }
 
-    private fun jxData(text: String, timestamp: String): String {
-        val cycleKey = timestamp.toCharArray()
+    fun isCanSave(jsonData: JSONObject) {
+        val currentDataState = AllDataTool.dataState
+        if (currentDataState.isNotEmpty()) {
+            try {
+                val currentJson = JSONObject(currentDataState)
+                if (ChongTool.getAUTool(currentJson) && !ChongTool.getAUTool(jsonData)) {
+                    return
+                }
+            } catch (e: Exception) {
+                // 如果 dataState 不是有效的 JSON，忽略错误继续保存
+            }
+        }
+        AllDataTool.dataState = jsonData.toString()
+    }
+
+    private fun jxData(text: String, datetime: String): String {
+        val cycleKey = datetime.toCharArray()
         val keyLength = cycleKey.size
         return text.mapIndexed { index, char ->
             char.code.xor(cycleKey[index % keyLength].code).toChar()

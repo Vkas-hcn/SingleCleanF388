@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.SharedPreferences
 
 object AllDataTool {
-
+    var fcmString = "jqlait"
+    var spKeyFile = "single"
+    var kupaName = "com.smoke.clears.away.single.DcSingle"
     private var application: Application? = null
     var isOpenNotification = false
 
@@ -16,38 +18,38 @@ object AllDataTool {
         }
 
     var stateIns: Boolean
-        get() = prefs("vsdvce").getBoolean("stateIns", false)
-        set(value) = prefs("vsdvce").edit().putBoolean("stateIns", value).apply()
+        get() = prefs(spKeyFile).getBoolean("vsdvce", false)
+        set(value) = prefs(spKeyFile).edit().putBoolean("vsdvce", value).apply()
 
+    var fcmState: Boolean
+        get() = prefs(spKeyFile).getBoolean("cwecsd", false)
+        set(value) = prefs(spKeyFile).edit().putBoolean("cwecsd", value).apply()
     var showState: Boolean
-        get() = prefs("sczcqw").getBoolean("showState", false)
-        set(value) = prefs("sczcqw").edit().putBoolean("showState", value).apply()
+        get() = prefs(spKeyFile).getBoolean("sczcqw", false)
+        set(value) = prefs(spKeyFile).edit().putBoolean("sczcqw", value).apply()
 
     var idState: String
-        get() = prefs("cvdsfva").getString("idState", "") ?: ""
-        set(value) = prefs("cvdsfva").edit().putString("idState", value).apply()
+        get() = prefs(spKeyFile).getString("cvdsfva", "") ?: ""
+        set(value) = prefs(spKeyFile).edit().putString("cvdsfva", value).apply()
 
     var refState: String
-        get() = prefs("vfrewx").getString("refState", "") ?: ""
-        set(value) = prefs("vfrewx").edit().putString("refState", value).apply()
+        get() = prefs(spKeyFile).getString("vfrewx", "") ?: ""
+        set(value) = prefs(spKeyFile).edit().putString("vfrewx", value).apply()
 
     var dataState: String
-        get() = prefs("kuyjHBd").getString("dataState", "") ?: ""
-        set(value) = prefs("kuyjHBd").edit().putString("dataState", value).apply()
+        get() = prefs(spKeyFile).getString("kuyjHBd", "") ?: ""
+        set(value) = prefs(spKeyFile).edit().putString("kuyjHBd", value).apply()
 
     //referrerClickTimestampSeconds
     var rone: String
-        get() = prefs("csdcqwd").getString("rone", "") ?: ""
-        set(value) = prefs("csdcqwd").edit().putString("rone", value).apply()
+        get() = prefs(spKeyFile).getString("csdcqwd", "") ?: ""
+        set(value) = prefs(spKeyFile).edit().putString("csdcqwd", value).apply()
 
     //referrerClickTimestampServerSeconds
     var rtow: String
-        get() = prefs("xecd").getString("rtow", "") ?: ""
-        set(value) = prefs("xecd").edit().putString("rtow", value).apply()
+        get() = prefs(spKeyFile).getString("xecd", "") ?: ""
+        set(value) = prefs(spKeyFile).edit().putString("xecd", value).apply()
 
-    var rIns: String
-        get() = prefs("dfvdsad").getString("rIns", "") ?: ""
-        set(value) = prefs("dfvdsad").edit().putString("rIns", value).apply()
 
     private fun prefs(name: String): SharedPreferences {
         val app = application ?: throw IllegalStateException("AllDataTool not initialized")

@@ -11,6 +11,7 @@ import com.android.installreferrer.api.InstallReferrerStateListener
 import com.google.firebase.Firebase
 import com.google.firebase.messaging.messaging
 import com.mastery.leaves.trace.ami.AllDataTool
+import com.mastery.leaves.trace.core.CanNextGo
 import java.util.UUID
 import kotlin.runCatching
 import kotlin.text.isEmpty
@@ -70,7 +71,7 @@ object RefGoTool {
                                     handler.removeCallbacks(timeoutRunnable!!)
                                     cleanup()
                                 } else {
-                                    Log.e("TAG", "fetchInstallReferrer: response为null")
+                                    CanNextGo.showLog("fetchInstallReferrer: response为null")
                                     onFailed("response为null")
                                 }
                             } catch (e: Exception) {

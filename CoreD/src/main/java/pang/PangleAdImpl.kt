@@ -1,6 +1,7 @@
 package pang
 
 import android.app.Activity
+import android.util.Log
 import com.great.faintest.Core
 import com.appsflyer.AFAdRevenueData
 import com.appsflyer.AdRevenueScheme
@@ -31,6 +32,7 @@ class PangleAdImpl(val t: String = "") {
         isL = true
         lT = System.currentTimeMillis()
         Core.pE("advertise_req$t")
+        Log.e("TAG", "lAd: id=$id", )
         PAGInterstitialAd.loadAd(
             id,
             PAGInterstitialRequest(Core.mApp),
@@ -41,9 +43,12 @@ class PangleAdImpl(val t: String = "") {
                         "advertise_fail$t",
                         "${pagErrorModel.errorCode}_${pagErrorModel.errorMessage}"
                     )
+                    Log.e("TAG", "onAdLoaded-omError-${pagErrorModel.errorCode}_${pagErrorModel.errorMessage}")
                 }
 
                 override fun onAdLoaded(pagInterstitialAd: PAGInterstitialAd) {
+                    Log.e("TAG", "onAdLoaded-success")
+
                     mAd = pagInterstitialAd
                     isL = false
                     Core.pE("advertise_get$t")
@@ -108,15 +113,14 @@ class PangleAdImpl(val t: String = "") {
 
 
     private fun postValue(si: PAGAdEcpmInfo) {
-        // todo TBA上报广告 只需要填写TBA文档上的参数
         Core.postAd(
-            JSONObject().put("", si.cpm.toDouble() * 1000)//ad_pre_ecpm
-                .put("", "USD")//currency
-                .put("", si.adnName)//ad_network
-                .put("", "pangle")//ad_source_client
-                .put("", si.placement)//ad_code_id
-                .put("", si.adUnit)//ad_pos_id
-                .put("", si.adFormat)//ad_format
+            JSONObject().put("abetting", si.cpm.toDouble() * 1000)//ad_pre_ecpm
+                .put("anneal", "USD")//currency
+                .put("swizzle", si.adnName)//ad_network
+                .put("sham", "pangle")//ad_source_client
+                .put("cavil", si.placement)//ad_code_id
+                .put("alga", si.adUnit)//ad_pos_id
+                .put("derby", si.adFormat)//ad_format
                 .toString()
         )
         val cpm = si.cpm.toDouble() / 1000

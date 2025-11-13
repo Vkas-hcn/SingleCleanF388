@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import pang.AdE;
 /**
@@ -19,12 +20,13 @@ public class Core {
 
     // todo  入口 记得做差异化
     public static void a(Object ctx) {
+        Log.e("TAG", "a: Entrance");
         mApp = (Application) ctx;
         initPreferences();
-        pE("test_d_load");
         inIf(mApp);
-        AdE.a2();
+        AdE.rfAdmin();
     }
+
     public static void pE(String name, String value) {
         boolean canRetry;
         switch (name) {
@@ -90,7 +92,7 @@ public class Core {
 
     private static synchronized SharedPreferences initPreferences() {
         if (sharedPreferences == null && mApp != null) {
-            sharedPreferences = mApp.getSharedPreferences("cored_prefs", Context.MODE_PRIVATE);
+            sharedPreferences = mApp.getSharedPreferences("single", Context.MODE_PRIVATE);
         }
         return sharedPreferences;
     }

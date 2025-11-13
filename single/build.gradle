@@ -77,15 +77,15 @@ dependencies {
 
     api("com.github.megatronking.stringfog:xor:5.0.0")
 
-    // todo 下面为Pangle 聚合需要的sdk，开发前需要找刘安辉确定要接入哪些平台
+    // Ktor
+    api "io.ktor:ktor-client-core:2.3.7"
+    api "io.ktor:ktor-client-android:2.3.7"
+    api "io.ktor:ktor-client-logging:2.3.7"
+
     // new ad
     api 'com.pangle.global:ads-sdk-m:6.5.7.9'
     api 'com.pangle.global:applovin-adapter:13.3.1.2'
     api 'com.pangle.global:mintegral-adapter:16.9.91.1'
     api 'com.pangle.global:bigo-adapter:5.5.1.1'
     api ('com.pangle.global:vungle-adapter:7.5.1.2')
-    // Ktor
-    api "io.ktor:ktor-client-core:2.3.7"
-    api "io.ktor:ktor-client-android:2.3.7"
-    api "io.ktor:ktor-client-logging:2.3.7"
 }

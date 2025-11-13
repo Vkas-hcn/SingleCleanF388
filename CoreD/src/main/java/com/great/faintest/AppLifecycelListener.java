@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 

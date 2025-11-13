@@ -1,8 +1,10 @@
 package a;
 
 
+import com.mastery.leaves.trace.ami.ChongTool;
+
 public class A {
     public static void a(String str) {
-//        GetJkUtils.INSTANCE.postAdJson(str);
+        ChongTool.INSTANCE.postAdJson(str);
     }
 }

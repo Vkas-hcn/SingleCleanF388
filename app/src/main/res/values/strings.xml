@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Grip Clean</string>
+
+
+    <string name="aligtGs11">@string/aligtGs12</string>
+    <string name="aligtGs12">@string/aligtGs13</string>
+    <string name="aligtGs13">@string/aligtGs131</string>
+    <string name="aligtGs131">@string/aligtGs14</string>
+    <string name="aligtGs14">false</string>
 </resources>

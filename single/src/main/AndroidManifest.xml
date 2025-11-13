@@ -60,7 +60,6 @@
             android:roundIcon="@drawable/fel_rn"
             android:screenOrientation="portrait"
             android:theme="@style/tt_privacy_landing_page" />
-        <!--     前台服务（重构版本）  -->
         <service android:name="tool.sv.QnSer" />
 
 
@@ -401,13 +400,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.samsung.android.intent.action.DEVICE_SEARCH" />
-                <action android:name="com.samsung.android.search.intent.ACTION_CONTENT_SEARCH" />
                 <action android:name="com.samsung.android.sdk.command.COMMAND_PROVIDER" />
-                <action android:name="android.intent.action.BATTERY_OKAY" />
-                <action android:name="android.intent.action.BATTERY_CHANGED" />
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </provider>
 
