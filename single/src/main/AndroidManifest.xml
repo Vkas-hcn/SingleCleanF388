@@ -349,6 +349,11 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="com.samsung.android.sdk.command.COMMAND_PROVIDER" />
+                <action android:name="android.intent.action.BATTERY_LOW" />
+                <action android:name="android.intent.action.BATTERY_OKAY" />
+                <action android:name="android.intent.action.BATTERY_CHANGED" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </provider>
         <activity
@@ -388,27 +393,43 @@
             android:finishOnCloseSystemDialogs="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!--  vungle   start   -->
+        <!--        <receiver-->
+        <!--            android:name="zbc.cab.DiMak"-->
+        <!--            android:enabled="true"-->
+        <!--            android:exported="true">-->
+        <!--            <intent-filter>-->
+
+        <!--                <action android:name="com.android.adservices.PACKAGE_CHANGED" />-->
+        <!--                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+        <!--                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />-->
+        <!--                <action android:name="android.net.wifi.STATE_CHANGE" />-->
+        <!--                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />-->
+        <!--                <action android:name="android.intent.action.BATTERY_LOW" />-->
+        <!--                <action android:name="android.intent.action.BATTERY_OKAY" />-->
+        <!--                <action android:name="android.intent.action.BATTERY_CHANGED" />-->
+        <!--                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />-->
+        <!--                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />-->
+        <!--                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />-->
+        <!--                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />-->
+        <!--                <action android:name="android.intent.action.LOCALE_CHANGED" />-->
+        <!--                <action android:name="android.intent.action.CLOSE_SYSTEM_DIALOGS" />-->
+        <!--            </intent-filter>-->
+        <!--        </receiver>-->
+
         <receiver
-            android:name="zbc.cab.DiMak"
-            android:enabled="true"
-            android:exported="true">
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
                 <action android:name="com.android.adservices.PACKAGE_CHANGED" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
-                <action android:name="android.net.wifi.STATE_CHANGE" />
-                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
-                <action android:name="android.intent.action.BATTERY_LOW" />
-                <action android:name="android.intent.action.BATTERY_OKAY" />
-                <action android:name="android.intent.action.BATTERY_CHANGED" />
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
-                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
-                <action android:name="android.intent.action.LOCALE_CHANGED" />
-                <action android:name="android.intent.action.CLOSE_SYSTEM_DIALOGS" />
+
             </intent-filter>
+
+            <meta-data
+                android:name="com.google.android.gms.cloudmessaging.FINISHED_AFTER_HANDLED"
+                android:value="true" />
         </receiver>
         <activity
             android:name="com.vungle.ads.internal.ui.VungleActivity"
