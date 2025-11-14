@@ -14,7 +14,6 @@ import org.json.JSONObject
 import kotlin.random.Random
 
 object ChongTool {
-    private const val TAG = "GetJkUtils"
     private const val REQUIRED_MAX_RETRY = 20
     private const val OPTIONAL_MIN_RETRY = 2
     private const val OPTIONAL_MAX_RETRY = 5
@@ -31,9 +30,9 @@ object ChongTool {
         return user == "need"
     }
 
-    fun getShangTool(jsonObject: JSONObject): Boolean {
+    fun JSONObject.getShangTool(): Boolean {
         try {
-            val user = jsonObject.optString("m_d")
+            val user = this.optString("m_d")
             return user == "upgo"
         } catch (e: Exception) {
             return false
@@ -70,7 +69,7 @@ object ChongTool {
             OPTIONAL_MIN_RETRY,
             OPTIONAL_MAX_RETRY + 1
         )
-        if (!canRetry && AllDataTool.dataState.isNotBlank() && !getShangTool(JSONObject(AllDataTool.dataState))) {
+        if (!canRetry && AllDataTool.dataState.isNotBlank() && !(JSONObject(AllDataTool.dataState).getShangTool())) {
             return
         }
         executeWithRetry(

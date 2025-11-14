@@ -33,7 +33,8 @@ class InitDies {
                         PAGMUserInfoForSegment.Builder()
                             .setChannel(channel)
                             .build()
-                    ).supportMultiProcess(false).build(), null)
+                    ).supportMultiProcess(false).build(), null
+            )
         }.onFailure { error ->
             CanNextGo.showLog("Ad SDK initialization failed: ${error.message}")
         }
@@ -87,14 +88,20 @@ class InitDies {
     }
 
     fun initAlly(app: Application) {
-        CanNextGo.showLog("initAlly: id=${AllDataTool.idState}---${String.applyKey}")
-        AppsFlyerLib.getInstance()
-            .init(String.applyKey, null, app)
-        AppsFlyerLib.getInstance().setCustomerUserId(AllDataTool.idState)
-        AppsFlyerLib.getInstance().start(app)
+        try {
+
+            CanNextGo.showLog("initAlly: app-id=${AllDataTool.idState}---af-id${String.applyKey}")
+            AppsFlyerLib.getInstance()
+                .init(String.applyKey, null, app)
+            AppsFlyerLib.getInstance().setCustomerUserId(AllDataTool.idState)
+            AppsFlyerLib.getInstance().start(app)
 //        testAf()
+        } catch (e: Exception) {
+            CanNextGo.showLog("initAlly failed: ${e.message}")
+        }
     }
-    //    fun testAf() {
+
+//    fun testAf() {
 //        val adRevenueData = com.appsflyer.AFAdRevenueData(
 //            "pangle",
 //            com.appsflyer.MediationNetwork.TRADPLUS,

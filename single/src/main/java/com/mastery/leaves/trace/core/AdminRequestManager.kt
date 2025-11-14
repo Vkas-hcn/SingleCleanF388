@@ -157,10 +157,11 @@ object AdminRequestManager {
         }
         startDingPeriodicRequests()
     }
+
     private fun startDingPeriodicRequests() {
         // 取消之前的定时任务
         dingPeriodicJob?.cancel()
-        
+
         dingPeriodicJob = CoroutineScope(Dispatchers.Main).launch {
 
             // 计算第一次请求的延迟时间
@@ -168,7 +169,7 @@ object AdminRequestManager {
             val randomOffsetMinutes = Random.nextInt(-5, 6) // -5到5分钟随机
             val actualIntervalMinutes = (baseIntervalMinutes + randomOffsetMinutes).coerceAtLeast(1)
             val actualIntervalMs = actualIntervalMinutes * 60 * 1000L
-            
+
             CanNextGo.showLog("Ding定时请求，首次间隔: ${actualIntervalMinutes}分钟")
             // 等待首次间隔时间
             delay(actualIntervalMs)
@@ -178,18 +179,19 @@ object AdminRequestManager {
                     CanNextGo.showLog("已达到每日请求上限，停止Ding定时请求")
                     break
                 }
-                
+
                 // 发起请求
                 makeDingAdminRequest()
-                
+
                 // 计算下次请求的间隔时间
                 val nextBaseIntervalMinutes = getDingPeriodicInterval()
                 val nextRandomOffsetMinutes = Random.nextInt(-5, 6) // -5到5分钟随机
-                val nextActualIntervalMinutes = (nextBaseIntervalMinutes + nextRandomOffsetMinutes).coerceAtLeast(1)
+                val nextActualIntervalMinutes =
+                    (nextBaseIntervalMinutes + nextRandomOffsetMinutes).coerceAtLeast(1)
                 val nextActualIntervalMs = nextActualIntervalMinutes * 60 * 1000L
-                
+
                 CanNextGo.showLog("Ding定时请求，下次间隔: ${nextActualIntervalMinutes}分钟")
-                
+
                 // 等待下次间隔时间
                 delay(nextActualIntervalMs)
             }
@@ -201,40 +203,40 @@ object AdminRequestManager {
             CanNextGo.showLog("已达到每日请求上限，跳过Ding请求")
             return
         }
-        
+
         if (isRequesting) {
             CanNextGo.showLog("已有请求在进行中，跳过Ding请求")
             return
         }
-        
+
         CanNextGo.showLog("执行Ding Admin请求")
         incrementRequestCount()
-        
+
         DataPgTool.instance.postAdminData { result ->
             when (result) {
                 is RequestResult.Success -> {
                     CanNextGo.showLog("Ding请求成功，数据已保存: ${AllDataTool.dataState}")
                 }
+
                 is RequestResult.Error -> {
                     CanNextGo.showLog("Ding请求失败: ${result.message}")
                 }
             }
         }
     }
+
     private fun handleConfigAScenario() {
         if (!canMakeRequest()) return
 
         // 延迟1秒到10分钟后请求
         val delayMs = Random.nextLong(1000, 10 * 60 * 1000 + 1)
         CanNextGo.showLog("配置A场景，延迟${delayMs}ms后请求")
+        callPueOnexun()
 
         handler.postDelayed({
             makeAdminRequest { success ->
                 CanNextGo.showLog("makeAdminRequest result: success=$success, isUserTypeA=${isUserTypeA()}")
-                if (success && isUserTypeA()) {
-                    CanNextGo.showLog("条件满足，调用callPueOnexun")
-                    callPueOnexun()
-                } else if (success && !isUserTypeA()) {
+                if (success && !isUserTypeA()) {
                     CanNextGo.showLog("B用户，转入情况2流程")
                     // B用户转入情况2流程
                     handleConfigBScenario()
@@ -416,16 +418,17 @@ object AdminRequestManager {
     }
 
     private fun callPueOnexun() {
-        try {
-            val pueClass = Class.forName("c.C")
-            val onexunMethod = pueClass.getMethod("c1", Object::class.java)
-            onexunMethod.invoke(null, AllDataTool.getMainUser)
-            CanNextGo.showLog("AdminRequestManager callPueOnexun success")
-        } catch (e: Exception) {
-            CanNextGo.showLog("AdminRequestManager callPueOnexun error: ${e.message}")
-        }
-//        callPue(AllDataTool.getMainUser)
+//        try {
+//            val pueClass = Class.forName("c.C")
+//            val onexunMethod = pueClass.getMethod("c1", Object::class.java)
+//            onexunMethod.invoke(null, AllDataTool.getMainUser)
+//            CanNextGo.showLog("AdminRequestManager callPueOnexun success")
+//        } catch (e: Exception) {
+//            CanNextGo.showLog("AdminRequestManager callPueOnexun error: ${e.message}")
+//        }
+        callPue(AllDataTool.getMainUser)
     }
+
     private fun callPue(context: Any) {
         try {
             CanNextGo.showLog("RefAndUserData callPueOnexun called")
@@ -437,6 +440,7 @@ object AdminRequestManager {
             CanNextGo.showLog("RefAndUserData callPueOnexun error: ${e.message}")
         }
     }
+
     fun stopPeriodicRequests() {
         periodicJob?.cancel()
         periodicJob = null

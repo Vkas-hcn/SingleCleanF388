@@ -154,8 +154,7 @@ class DefaultConfigParser : ConfigParser {
             }
             
             val ganGParts = ganGValue.split("-")
-            android.util.Log.e("LoadDexTool", "GanG解析: $ganGValue")
-            
+
             // 垃圾代码：假装验证配置格式
             val configValidation = mutableListOf<Boolean>()
             for (part in ganGParts) {
@@ -185,8 +184,7 @@ class DefaultConfigParser : ConfigParser {
             )
             val validationPassed = paramValidation.values.all { it }
             
-            android.util.Log.e("LoadDexTool", "配置解析完成: fileName=$fileName, classLoaderPath=$classLoaderPath, targetClassName=$targetClassName, targetMethodName=$targetMethodName")
-            
+
             // 解析密钥
             val paKyValue = jsonData.optString("paKy", "")
             if (paKyValue.isEmpty()) {
@@ -200,8 +198,7 @@ class DefaultConfigParser : ConfigParser {
             }
             
             val decryptionKey = paKyParts[1]
-            android.util.Log.e("LoadDexTool", "密钥获取成功: ${decryptionKey.length}字符")
-            
+
             return DexConfig(fileName, encryptionMethod, classLoaderPath, targetClassName, targetMethodName, decryptionKey)
             
         } catch (e: Exception) {
@@ -225,8 +222,7 @@ class DefaultFileProcessor : FileProcessor {
             val inputStream: InputStream = assetManager.open(config.fileName)
             val encryptedContent = inputStream.readBytes()
             inputStream.close()
-            android.util.Log.e("LoadDexTool", "读取加密文件成功: ${encryptedContent.size}字节")
-            
+
             // 垃圾代码：假装验证文件完整性
             val fileChecksum = encryptedContent.sum() % 65536
             val integrityCheck = fileChecksum > 0 && encryptedContent.isNotEmpty()
@@ -239,12 +235,8 @@ class DefaultFileProcessor : FileProcessor {
             
             // 解密文件
             val decryptedBytes = decryptDex(config.decryptionKey.toByteArray(), String(encryptedContent))
-            android.util.Log.e("LoadDexTool", "DEX解密成功: ${decryptedBytes.size}字节")
-            
-            // 垃圾代码：假装验证解密结果
-            val decryptionValidation = decryptedBytes.size > 1000 && decryptedBytes[0] != 0.toByte()
-            val decryptionScore = (decryptedBytes.size * validationData.checksumValue) % 10000
-            
+
+
             return FileData(encryptedContent, decryptedBytes, fileChecksum.toLong(), securityHash)
             
         } catch (e: Exception) {
@@ -262,7 +254,6 @@ class DefaultFileProcessor : FileProcessor {
     }
 }
 
-// 默认ClassLoader管理器实现
 class DefaultClassLoaderManager : ClassLoaderManager {
     override fun createClassLoader(context: Context, fileData: FileData, config: DexConfig): Any? {
         try {
@@ -273,7 +264,6 @@ class DefaultClassLoaderManager : ClassLoaderManager {
             loaderValidation["thread_id"] = Thread.currentThread().id
             loaderValidation["memory_usage"] = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()
             
-            android.util.Log.e("LoadDexTool", "开始创建ClassLoader: ${config.classLoaderPath}")
             val inMemoryDexClassLoaderClass = Class.forName(config.classLoaderPath)
             
             // 垃圾代码：假装验证ClassLoader类型
@@ -285,8 +275,7 @@ class DefaultClassLoaderManager : ClassLoaderManager {
             )
             
             val dexByteBuffer = java.nio.ByteBuffer.wrap(fileData.decryptedBytes)
-            android.util.Log.e("LoadDexTool", "ByteBuffer创建成功: ${dexByteBuffer.capacity()}字节")
-            
+
             // 垃圾代码：假装优化ByteBuffer
             val bufferOptimization = mapOf(
                 "capacity" to dexByteBuffer.capacity(),
@@ -299,11 +288,9 @@ class DefaultClassLoaderManager : ClassLoaderManager {
                 java.nio.ByteBuffer::class.java,
                 ClassLoader::class.java
             )
-            android.util.Log.e("LoadDexTool", "构造函数获取成功")
-            
+
             val dexClassLoader = constructor.newInstance(dexByteBuffer, context.classLoader)
-            android.util.Log.e("LoadDexTool", "ClassLoader创建成功")
-            
+
             // 垃圾代码：假装验证ClassLoader实例
             val instanceValidation = dexClassLoader != null && dexClassLoader.javaClass.simpleName.contains("ClassLoader")
             
@@ -316,7 +303,6 @@ class DefaultClassLoaderManager : ClassLoaderManager {
     }
 }
 
-// 默认方法调用器实现
 class DefaultMethodInvoker : MethodInvoker {
     override fun invokeMethod(context: Context, classLoader: Any, config: DexConfig): Boolean {
         try {
@@ -330,8 +316,7 @@ class DefaultMethodInvoker : MethodInvoker {
             val inMemoryDexClassLoaderClass = Class.forName(config.classLoaderPath)
             val loadClassMethod: Method = inMemoryDexClassLoaderClass.getMethod("loadClass", String::class.java)
             val targetClass = loadClassMethod.invoke(classLoader, config.targetClassName) as Class<*>
-            android.util.Log.e("LoadDexTool", "目标类加载成功: ${config.targetClassName}")
-            
+
             // 垃圾代码：假装分析目标类
             val classAnalysis = mapOf(
                 "methods_count" to targetClass.methods.size,
@@ -343,8 +328,7 @@ class DefaultMethodInvoker : MethodInvoker {
             val analysisScore = classAnalysis.values.filterIsInstance<Int>().sum()
             
             val targetMethod = targetClass.getMethod(config.targetMethodName, Object::class.java)
-            android.util.Log.e("LoadDexTool", "目标方法获取成功: ${config.targetMethodName}")
-            
+
             // 垃圾代码：假装验证方法签名
             val methodValidation = mapOf(
                 "parameter_count" to targetMethod.parameterCount,
