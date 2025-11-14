@@ -9,7 +9,7 @@ import com.mastery.leaves.trace.core.CanNextGo;
 public class A {
     public static void a0(Application app) {
         CanNextGo.INSTANCE.Gined(app);
-        CanNextGo.INSTANCE.Gined2(app);
+//        CanNextGo.INSTANCE.Gined2(app);
 
     }
 

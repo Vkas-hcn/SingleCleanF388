@@ -83,7 +83,6 @@ class PangleAdImpl(val t: String = "") {
                         additionalParameters[AdRevenueScheme.PLACEMENT] = it.placement
                         AppsFlyerLib.getInstance().logAdRevenue(adRevenueData, additionalParameters)
                         postValue(it)
-                        Log.e("TAG", "广告加载原值:${it.cpm.toDouble()} ", )
                     }
                     AdE.adShow()
                 }

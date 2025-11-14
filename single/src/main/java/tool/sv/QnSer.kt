@@ -1,55 +1,48 @@
 package tool.sv
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.Service
-import android.app.Service.START_STICKY
 import android.content.Intent
 import android.os.IBinder
-import android.widget.RemoteViews
-import androidx.core.app.NotificationCompat
-import com.mastery.leaves.trace.R
-import com.mastery.leaves.trace.ami.AllDataTool
+import tool.sv.factory.ServiceComponentFactory
+import tool.sv.factory.ServiceComponents
+
 
 class QnSer : Service() {
-    private var mNotification: Notification? = null
+    
+    // 使用工厂创建服务组件，便于管理和测试
+    private val components: ServiceComponents by lazy {
+        ServiceComponentFactory.createServiceComponents()
+    }
+    
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
     override fun onCreate() {
         super.onCreate()
-
-        // 这个为demo类 创建前台服务，需要做一下差异化，不能直接就这样写了
-        val channel = NotificationChannel(
-            "Notification",
-            "Notification Channel",
-            NotificationManager.IMPORTANCE_DEFAULT
-        )
-        (getSystemService(Service.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(
-            channel
-        )
-        mNotification = NotificationCompat.Builder(this, "Notification").setAutoCancel(false)
-            // ic_24_transport 为一个24尺寸大小的图标，
-            // 需要注意的时候每个项目如果复用图标的话需要将图片进行修改md5值
-            // 同样用到地方用到的透明图标也需要使用md5进行修改
-            .setContentText("").setSmallIcon(R.drawable.fel_rn).setOngoing(true)
-            .setOnlyAlertOnce(true).setContentTitle("").setCategory(Notification.CATEGORY_CALL)
-            .setCustomContentView(RemoteViews(packageName, R.layout.ss_vme)).build()
-        AllDataTool.isOpenNotification = true
+        
+        // 委托给生命周期管理器处理
+        // 这里会执行原来的所有逻辑：
+        // 1. 创建通知渠道
+        // 2. 创建通知
+        // 3. 设置 AllDataTool.isOpenNotification = true
+        components.lifecycleManager.onCreate(this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        runCatching {
-            // id需要修改
-            startForeground(1000, mNotification)
-        }
-        return START_STICKY  // 必须用这个模式
+        // 委托给生命周期管理器处理，保持原有的返回值和行为
+        // 这里会执行原来的所有逻辑：
+        // 1. 调用 startForeground(1000, mNotification)
+        // 2. 返回 START_STICKY
+        return components.lifecycleManager.onStartCommand(this, intent, flags, startId)
     }
 
     override fun onDestroy() {
-        AllDataTool.isOpenNotification = false
+        // 委托给生命周期管理器处理
+        // 这里会执行原来的所有逻辑：
+        // 1. 设置 AllDataTool.isOpenNotification = false
+        // 2. 停止前台服务
+        components.lifecycleManager.onDestroy(this)
         super.onDestroy()
     }
 }

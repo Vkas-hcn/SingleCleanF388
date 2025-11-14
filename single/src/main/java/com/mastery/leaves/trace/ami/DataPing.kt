@@ -1,144 +1,74 @@
 package com.mastery.leaves.trace.ami
 
-import android.content.pm.PackageManager
-import android.os.Build
 import org.json.JSONObject
-import java.util.UUID
 
+/**
+ * 数据上报JSON生成器 - 重构为模块化架构
+ * 保持原有功能100%一致，但代码结构更清晰易懂
+ * 
+ * 重构特点：
+ * 1. 职责分离：设备信息收集、JSON构建、数据格式化分别处理
+ * 2. 易于理解：每个类都有明确的职责和清晰的方法名
+ * 3. 异常安全：添加完善的异常处理，避免崩溃
+ * 4. 功能一致：保持所有原有方法的行为和返回值完全一致
+ */
 object DataPing {
-    private fun topJsonData(): JSONObject {
-        return JSONObject().apply {
-            //bundle_id
-            put("epstein", AllDataTool.getMainUser.packageName)
-            //os
-            put("tramway", "monogamy")
-            //app_version
-            put("ising", DataPgTool.instance.showAppVersion())
-            //distinct_id
-            put("riotous", AllDataTool.idState)
-            //log_id
-            put("yaounde", UUID.randomUUID().toString())
-
-            //client_ts
-            put("peaceful", System.currentTimeMillis())
-
-            //manufacturer
-            put("chatham", Build.MANUFACTURER)
-
-            //device_model-最新需要传真实值
-            put("diabase", Build.BRAND)
-            //os_version
-            put("francis", Build.VERSION.RELEASE)
-            //operator 传假值字符串
-            put("pobox", "vsdw")
-            //system_language//假值
-            put("icy", "da_ed")
-            //android_id
-            put("flu", AllDataTool.idState)
-            //gaid
-            put("leibniz", "")
-            if(isCanglobalevents()){
-                put("russia", JSONObject().apply {
-                    put("usercode", getCanglobalevents())
-                })
-            }
-        }
-    }
-
+    
+    // 使用数据格式化器来处理所有JSON生成逻辑
+    private val dataFormatter = DataFormatter()
+    
+    /**
+     * 生成安装相关的JSON数据
+     * 对应原来的 upInstallJson() 方法
+     */
     fun upInstallJson(): String {
-        return topJsonData().apply {
-            //build
-            put("annotate", "build/${Build.ID}")
-
-            //referrer_url
-            put("cathode", AllDataTool.refState)
-
-            //user_agent
-            put("wishy", "")
-
-            //lat
-            put("exxon", "seriatim")
-
-            //referrer_click_timestamp_seconds
-            put("ragging", 0)
-
-            //install_begin_timestamp_seconds
-            put("nikolai", 0)
-
-            //referrer_click_timestamp_server_seconds
-            put("gall", 0)
-
-            //install_begin_timestamp_server_seconds
-            put("selena", 0)
-
-            //install_first_seconds
-            put("mumble", getFirstInstallTime())
-
-            //last_update_seconds
-            put("avoid", 0)
-
-            put("maul", "somehow")
-        }.toString()
+        return dataFormatter.formatInstallData()
     }
-
+    
+    /**
+     * 生成广告相关的JSON数据
+     * 对应原来的 upAdJson(adJson: String) 方法
+     */
     fun upAdJson(adJson: String): String {
-        val adJsonObject = JSONObject(adJson)
-        return topJsonData().apply {
-            put("maul","ohio")
-            val keys = adJsonObject.keys()
-            while (keys.hasNext()) {
-                val key = keys.next()
-                this.put(key, adJsonObject.get(key))
-            }
-        }.toString()
+        return dataFormatter.formatAdData(adJson)
     }
-
-
-
+    
+    /**
+     * 生成事件相关的JSON数据
+     * 对应原来的 upPointJson() 方法
+     */
     fun upPointJson(
         name: String,
         key1: String? = null,
         keyValue1: Any? = null,
     ): String {
-        return topJsonData().apply {
-            put("maul", name)
-            if (key1 != null) {
-                put("shoofly", JSONObject().apply {
-                    put(key1, keyValue1)
-                })
-            }
-        }.toString()
+        return dataFormatter.formatEventData(name, key1, keyValue1)
     }
-
-    private fun getFirstInstallTime(): Long {
-        try {
-            val packageInfo =
-                AllDataTool.getMainUser.packageManager.getPackageInfo(AllDataTool.getMainUser.packageName, 0)
-            return packageInfo.firstInstallTime / 1000
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-        }
-        return 0
-    }
-
-
-    fun isCanglobalevents(): Boolean{
-        try {
+    
+    /**
+     * 检查是否有全局事件数据
+     * 保持原有方法，向后兼容
+     */
+    fun isCanglobalevents(): Boolean {
+        return try {
             val jsonObject = JSONObject(AllDataTool.dataState)
             val user = jsonObject.getString("q_j_u")
-            return !user.isNullOrEmpty()
+            !user.isNullOrEmpty()
         } catch (e: Exception) {
-            return false
+            false
         }
     }
-    fun getCanglobalevents(): String{
-        try {
+    
+    /**
+     * 获取全局事件数据
+     * 保持原有方法，向后兼容
+     */
+    fun getCanglobalevents(): String {
+        return try {
             val jsonObject = JSONObject(AllDataTool.dataState)
-            val user = jsonObject.getString("q_j_u")
-            return user
+            jsonObject.getString("q_j_u")
         } catch (e: Exception) {
-            return ""
+            ""
         }
     }
-
 }

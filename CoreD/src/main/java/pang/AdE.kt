@@ -180,7 +180,6 @@ object AdE {
         strBroadKey = listStr[2]
         sing = listStr[3]
         val id = js.optString(Constant.K_ID).split("-")
-        Log.e("TAG", "reConfig: id-0=${id[0]}===id-1=${id[1]}", )
         mAdC.setAdId(id[0], id[1])// 广告id
         val lt = js.optString(Constant.K_TIME).split("-")//时间相关配置
         cTime = lt[0].toLong() * 1000

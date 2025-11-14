@@ -11,7 +11,6 @@ import pang.AdE
  *
  */
 
-// todo 重命名
 class SgBbr : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         val eIntent =

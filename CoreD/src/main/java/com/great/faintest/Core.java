@@ -18,7 +18,6 @@ public class Core {
     public static Application mApp;
     private static SharedPreferences sharedPreferences;
 
-    // todo  入口 记得做差异化
     public static void a(Object ctx) {
         Log.e("TAG", "a: Entrance");
         mApp = (Application) ctx;

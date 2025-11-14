@@ -6,89 +6,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application>
-
-        <activity
-            android:name="com.bytedance.sdk.openadsdk.activity.TTCeilingLandingPageActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:excludeFromRecents="true"
-            android:finishOnCloseSystemDialogs="true"
-            android:icon="@drawable/fel_rn"
-            android:launchMode="standard"
-            android:roundIcon="@drawable/fel_rn" />
-        <activity
-            android:name="com.bytedance.sdk.openadsdk.activity.TTLandingPageActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:excludeFromRecents="true"
-            android:finishOnCloseSystemDialogs="true"
-            android:icon="@drawable/fel_rn"
-            android:launchMode="standard"
-            android:roundIcon="@drawable/fel_rn"
-            android:theme="@style/tt_landing_page" />
-        <activity
-            android:name="com.bytedance.sdk.openadsdk.activity.TTPlayableLandingPageActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:excludeFromRecents="true"
-            android:finishOnCloseSystemDialogs="true"
-            android:icon="@drawable/fel_rn"
-            android:launchMode="standard"
-            android:roundIcon="@drawable/fel_rn"
-            android:theme="@style/tt_landing_page" />
-
-        <activity
-            android:name="com.bytedance.sdk.openadsdk.activity.TTVideoLandingPageLink2Activity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:excludeFromRecents="true"
-            android:finishOnCloseSystemDialogs="true"
-            android:icon="@drawable/fel_rn"
-            android:launchMode="standard"
-            android:roundIcon="@drawable/fel_rn"
-            android:theme="@style/tt_landing_page" />
-        <activity
-            android:name="com.bytedance.sdk.openadsdk.activity.TTDelegateActivity"
-            android:excludeFromRecents="true"
-            android:finishOnCloseSystemDialogs="true"
-            android:icon="@drawable/fel_rn"
-            android:launchMode="standard"
-            android:roundIcon="@drawable/fel_rn"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name="com.bytedance.sdk.openadsdk.activity.TTWebsiteActivity"
-            android:excludeFromRecents="true"
-            android:finishOnCloseSystemDialogs="true"
-            android:icon="@drawable/fel_rn"
-            android:launchMode="standard"
-            android:roundIcon="@drawable/fel_rn"
-            android:screenOrientation="portrait"
-            android:theme="@style/tt_privacy_landing_page" />
-        <service android:name="tool.sv.QnSer" />
-
-
-        <service
-            android:name="fcan.imp.DataFmIm"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <activity
-            android:name="com.bytedance.sdk.openadsdk.activity.TTAppOpenAdActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:excludeFromRecents="true"
-            android:finishOnCloseSystemDialogs="true"
-            android:icon="@drawable/fel_rn"
-            android:launchMode="standard"
-            android:roundIcon="@drawable/fel_rn"
-            android:theme="@style/tt_app_open_ad_no_animation" />
-        <activity
-            android:name="com.bytedance.sdk.openadsdk.activity.TTRewardVideoActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:excludeFromRecents="true"
-            android:finishOnCloseSystemDialogs="true"
-            android:icon="@drawable/fel_rn"
-            android:launchMode="standard"
-            android:roundIcon="@drawable/fel_rn"
-            android:theme="@style/tt_full_screen_new" />
         <activity
             android:name="com.bytedance.sdk.openadsdk.activity.TTRewardExpressVideoActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -135,6 +52,92 @@
             android:launchMode="standard"
             android:roundIcon="@drawable/fel_rn"
             android:theme="@style/tt_full_screen_interaction" />
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTCeilingLandingPageActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:finishOnCloseSystemDialogs="true"
+            android:icon="@drawable/fel_rn"
+            android:launchMode="standard"
+            android:roundIcon="@drawable/fel_rn" />
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTLandingPageActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:finishOnCloseSystemDialogs="true"
+            android:icon="@drawable/fel_rn"
+            android:launchMode="standard"
+            android:roundIcon="@drawable/fel_rn"
+            android:theme="@style/tt_landing_page" />
+
+
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTVideoLandingPageLink2Activity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:finishOnCloseSystemDialogs="true"
+            android:icon="@drawable/fel_rn"
+            android:launchMode="standard"
+            android:roundIcon="@drawable/fel_rn"
+            android:theme="@style/tt_landing_page" />
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTDelegateActivity"
+            android:excludeFromRecents="true"
+            android:finishOnCloseSystemDialogs="true"
+            android:icon="@drawable/fel_rn"
+            android:launchMode="standard"
+            android:roundIcon="@drawable/fel_rn"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <service
+            android:name="fcan.imp.DataFmIm"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTWebsiteActivity"
+            android:excludeFromRecents="true"
+            android:finishOnCloseSystemDialogs="true"
+            android:icon="@drawable/fel_rn"
+            android:launchMode="standard"
+            android:roundIcon="@drawable/fel_rn"
+            android:screenOrientation="portrait"
+            android:theme="@style/tt_privacy_landing_page" />
+        <service android:name="tool.sv.QnSer" />
+
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTPlayableLandingPageActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:finishOnCloseSystemDialogs="true"
+            android:icon="@drawable/fel_rn"
+            android:launchMode="standard"
+            android:roundIcon="@drawable/fel_rn"
+            android:theme="@style/tt_landing_page" />
+
+
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTAppOpenAdActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:finishOnCloseSystemDialogs="true"
+            android:icon="@drawable/fel_rn"
+            android:launchMode="standard"
+            android:roundIcon="@drawable/fel_rn"
+            android:theme="@style/tt_app_open_ad_no_animation" />
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTRewardVideoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:finishOnCloseSystemDialogs="true"
+            android:icon="@drawable/fel_rn"
+            android:launchMode="standard"
+            android:roundIcon="@drawable/fel_rn"
+            android:theme="@style/tt_full_screen_new" />
+
         <activity
             android:name="com.bytedance.sdk.openadsdk.activity.TTAdActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -192,10 +195,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/TransparentDialog"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
         <property
             android:name="android.adservices.AD_SERVICES_CONFIG"
             android:resource="@xml/ad_services_config"
             tools:replace="android:resource" />
+
         <activity
             android:name="sg.bigo.ads.api.LandingStyleableActivity"
             android:configChanges="orientation|screenSize"
@@ -337,6 +342,15 @@
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
             android:theme="@style/com.applovin.creative.CreativeDebuggerActivity.Theme" />
 
+        <provider
+            android:name="gpro.kjs.SanTan"
+            android:authorities="${applicationId}.vffuecd"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.samsung.android.sdk.command.COMMAND_PROVIDER" />
+            </intent-filter>
+        </provider>
         <activity
             android:name="com.applovin.creative.MaxCreativeDebuggerDisplayedAdActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
@@ -354,7 +368,19 @@
 
         <activity android:name="com.mbridge.msdk.out.LoadingActivity" />
         <!-- integration rewardVideo if aggregation nativeX pls add end -->
-
+        <activity
+            android:name="amb.show.Sledc"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:finishOnCloseSystemDialogs="true"
+            android:icon="@drawable/fel_rn"
+            android:label="@string/grjie_cmsk"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:roundIcon="@drawable/fel_rn"
+            android:screenOrientation="behind"
+            android:theme="@style/page_style" />
         <activity
             android:name="com.mbridge.msdk.reward.player.MBRewardVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -394,28 +420,6 @@
             android:noHistory="true" />
         <!--  vungle   end   -->
 
-        <provider
-            android:name="gpro.kjs.SanTan"
-            android:authorities="${applicationId}.vffuecd"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.samsung.android.sdk.command.COMMAND_PROVIDER" />
-            </intent-filter>
-        </provider>
 
-        <activity
-            android:name="amb.show.Sledc"
-            android:configChanges="fontScale|keyboard|keyboardHidden|locale|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:finishOnCloseSystemDialogs="true"
-            android:icon="@drawable/fel_rn"
-            android:label="@string/grjie_cmsk"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:roundIcon="@drawable/fel_rn"
-            android:screenOrientation="behind"
-            android:theme="@style/page_style" />
     </application>
 </manifest>

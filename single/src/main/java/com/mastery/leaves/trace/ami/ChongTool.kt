@@ -55,9 +55,7 @@ object ChongTool {
         }
     }
 
-    /**
-     * 上报事件（带重试）
-     */
+
     fun postPointFun(
         canRetry: Boolean,
         name: String,
@@ -80,9 +78,7 @@ object ChongTool {
         )
     }
 
-    /**
-     * 上报广告事件（必传，带重试）
-     */
+
     fun postAdJson(jsonData: String) {
         val requestKey = "ad_${jsonData.hashCode()}"
 
@@ -94,9 +90,7 @@ object ChongTool {
         )
     }
 
-    /**
-     * 上报安装事件（必传，带重试）
-     */
+
     fun postInstallJson() {
         if (AllDataTool.stateIns) return
         executeWithRetry(
@@ -108,9 +102,7 @@ object ChongTool {
         )
     }
 
-    /**
-     * 带重试机制的请求执行器
-     */
+
     private fun executeWithRetry(
         requestKey: String,
         maxRetry: Int,

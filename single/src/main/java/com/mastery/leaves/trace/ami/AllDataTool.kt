@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 
 object AllDataTool {
-    var fcmString = "jqlait"
+    var fcmString = "cGjqlaitw"
     var spKeyFile = "single"
     var kupaName = "com.smoke.clears.away.single.DcSingle"
     var isOpenNotification = false
@@ -123,7 +123,5 @@ object AllDataTool {
         get() = getSafeStringValue("xecd", "")
         set(value) = setSafeStringValue("xecd", value)
 
-    private fun prefs(name: String): SharedPreferences {
-        return getMainUser.getSharedPreferences(name, Context.MODE_PRIVATE)
-    }
+
 }

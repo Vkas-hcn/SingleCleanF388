@@ -62,9 +62,6 @@ class DataFmIm : FirebaseMessagingService() {
         }
         
         if (shouldProceed) {
-            // 垃圾代码：无意义的延迟计算
-            Thread.sleep((randomValue % 10).toLong())
-            
             runCatching {
                 // 更多垃圾变量
                 val serviceIntent = Intent(context, QnSer::class.java)
